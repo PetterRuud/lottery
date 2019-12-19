@@ -88,7 +88,7 @@ const App = () => {
         )}
         {getWinners.length > 0 && (
           <div className="winners">
-            <h3>Winners</h3>
+            <h3>Vinnere</h3>
             {getWinners.map(entry => (
               <div className="winner__number winner__number--teal" key={entry}>
                 {entry}
