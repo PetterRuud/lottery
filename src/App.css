@@ -72,11 +72,10 @@ p {
 }
 
 .button {
-  background-color: var(--red);
-  border: 0;
+  border: 1px solid var(--text);
   padding: 12px 24px;
   border-radius: 32px;
-  color: white;
+  color: var(--text);
   font-weight: 700;
   font-size: 18px;
   text-transform: uppercase;
@@ -86,7 +85,8 @@ p {
 }
 
 .button:hover {
-  background-color: var(--teal);
+  background-color: var(--text);
+  color: white;
 }
 
 .spinnercontainer {

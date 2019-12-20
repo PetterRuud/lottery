@@ -1,15 +1,35 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Reward from "react-rewards";
 import "./App.css";
-
-const entries = ["A1", "A2", "A3"];
 
 const App = () => {
   const confettiRef = useRef();
   const [isLoading, setLoading] = useState(false);
   const [getWinner, setWinner] = useState();
   const [getWinners, setWinners] = useState([]);
-  const [getEntries, setEntries] = useState(entries);
+  const [getEntries, setEntries] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getEntriesData();
+    };
+    fetchData();
+  }, []);
+
+  const getEntriesData = async () => {
+    setLoading(true);
+    try {
+      const result = await fetch(`${process.env.PUBLIC_URL}/__mocks__/1.json`);
+      console.log(result);
+      if (result.status === 200) {
+        const entries = await result.json();
+        setEntries(entries);
+        setLoading(false);
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
 
   const pickWinner = () => {
     setLoading(true);
@@ -24,14 +44,14 @@ const App = () => {
     setTimeout(() => {
       setLoading(false);
       confettiRef.current.rewardMe();
-    }, 2000);
+    }, 1000);
   };
 
-  const reset = () => {
+  const reset = async () => {
     setLoading(true);
     setWinner();
     setWinners([]);
-    setEntries(entries);
+    await getEntriesData();
     setLoading(false);
   };
 
@@ -61,10 +81,7 @@ const App = () => {
             viewBox="0 0 100 100"
             xmlSpace="preserve"
           >
-            <path
-              class="st0"
-              d="M80.5,80.5h-60c-5.5,0-10-4.5-10-10v-12c4.4,0,8-3.6,8-8s-3.6-8-8-8v-12c0-5.5,4.5-10,10-10h60  c5.5,0,10,4.5,10,10v40C90.5,76,86,80.5,80.5,80.5z M86.5,30.5c0-3.3-2.7-6-6-6h-39v13h-4v-13h-17c-3.3,0-6,2.7-6,6v8.7  c4.7,1.6,8,6.1,8,11.3s-3.3,9.7-8,11.3v8.7c0,3.3,2.7,6,6,6h17v-13h4v13h39c3.3,0,6-2.7,6-6V30.5z M37.5,43.5h4v14h-4V43.5z"
-            />
+            <path d="M80.5,80.5h-60c-5.5,0-10-4.5-10-10v-12c4.4,0,8-3.6,8-8s-3.6-8-8-8v-12c0-5.5,4.5-10,10-10h60  c5.5,0,10,4.5,10,10v40C90.5,76,86,80.5,80.5,80.5z M86.5,30.5c0-3.3-2.7-6-6-6h-39v13h-4v-13h-17c-3.3,0-6,2.7-6,6v8.7  c4.7,1.6,8,6.1,8,11.3s-3.3,9.7-8,11.3v8.7c0,3.3,2.7,6,6,6h17v-13h4v13h39c3.3,0,6-2.7,6-6V30.5z M37.5,43.5h4v14h-4V43.5z" />
           </svg>
         </div>
 
