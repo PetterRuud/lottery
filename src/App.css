@@ -97,7 +97,7 @@ p {
   background: white;
   border-radius: 50%;
   padding: 0;
-  border: 20px solid var(--teal);
+  border: 20px solid var(--text);
   border-top-color: var(--red);
   animation: rotator 1.4s linear infinite;
 }
