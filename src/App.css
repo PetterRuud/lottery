@@ -116,6 +116,7 @@ p {
 
 .winners,
 .winner {
+  max-width: 480px;
   padding-top: 24px;
 }
 
