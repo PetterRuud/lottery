@@ -30,7 +30,8 @@ const App = () => {
     }
   };
 
-  const pickWinner = () => {
+  const pickWinner = event => {
+    event.preventDefault();
     setLoading(true);
     const random = Math.floor(Math.random() * getEntries.length);
     const winner = getEntries[random];
@@ -64,6 +65,7 @@ const App = () => {
           viewBox="0 0 66 66"
           xmlns="http://www.w3.org/2000/svg"
         />
+        <h3>Trekker vinnerlodd</h3>
       </div>
     );
   }
@@ -77,7 +79,7 @@ const App = () => {
         </div>
 
         {getEntries.length > 0 && (
-          <button className="button" onClick={() => pickWinner()}>
+          <button className="button" onClick={event => pickWinner(event)}>
             Trekk lodd
           </button>
         )}
@@ -91,6 +93,14 @@ const App = () => {
       </div>
 
       <div className="lottery">
+        {getWinners.length === 0 && (
+          <>
+            <h1>Trykk på knappen for å starte</h1>
+            <button className="button" onClick={event => pickWinner(event)}>
+              Trekk lodd
+            </button>
+          </>
+        )}
         {getWinner && (
           <div className="winner">
             <h2>Gratulerer</h2>
