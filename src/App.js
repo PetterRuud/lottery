@@ -19,7 +19,7 @@ const App = () => {
   const getEntriesData = async () => {
     setLoading(true);
     try {
-      const result = await fetch(`${process.env.PUBLIC_URL}/__mocks__/1.json`);
+      const result = await fetch(`${process.env.PUBLIC_URL}/__mocks__/2.json`);
       if (result.status === 200) {
         const entries = await result.json();
         setEntries(entries);
