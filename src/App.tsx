@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useRef } from "react";
-import Reward from "react-rewards";
+import { useEffect, useState, useRef, MouseEvent } from "react";
+import { useReward } from 'react-rewards';
 import "./App.css";
 
 const App = () => {
-  const confettiRef = useRef();
   const [isLoading, setLoading] = useState(false);
-  const [getWinner, setWinner] = useState();
-  const [getWinners, setWinners] = useState([]);
-  const [getEntries, setEntries] = useState([]);
+  const [getWinner, setWinner] = useState<string | undefined>();
+  const [getWinners, setWinners] = useState<string[]>([]);
+  const [getEntries, setEntries] = useState<string[]>([]);
+  const { reward } = useReward('rewardId', 'confetti');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,18 +19,18 @@ const App = () => {
   const getEntriesData = async () => {
     setLoading(true);
     try {
-      const result = await fetch(`${process.env.PUBLIC_URL}/__mocks__/2.json`);
+      const result = await fetch('/numbers/2.json');
       if (result.status === 200) {
         const entries = await result.json();
         setEntries(entries);
         setLoading(false);
       }
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(error);
     }
   };
 
-  const pickWinner = event => {
+  const pickWinner = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setLoading(true);
     const random = Math.floor(Math.random() * getEntries.length);
@@ -43,13 +43,13 @@ const App = () => {
     setEntries(newEntries);
     setTimeout(() => {
       setLoading(false);
-      confettiRef.current.rewardMe();
+      reward();
     }, 1000);
   };
 
   const reset = async () => {
     setLoading(true);
-    setWinner();
+    setWinner(undefined);
     setWinners([]);
     await getEntriesData();
     setLoading(false);
@@ -104,11 +104,9 @@ const App = () => {
         {getWinner && (
           <div className="winner">
             <h2>Gratulerer</h2>
-            <Reward ref={confettiRef} type="confetti">
-              <div className="winner__number winner__number--large">
+              <div id="rewardId" className="winner__number winner__number--large">
                 {getWinner}
               </div>
-            </Reward>
           </div>
         )}
         {getWinners.length > 0 && (
